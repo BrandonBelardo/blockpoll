@@ -1,19 +1,11 @@
-import AuthForm from "@/components/AuthForm";
-import { useRouter } from "next/router";
+import styled from "styled-components";
+
+const NewHeader = styled.h1`
+    padding-top: 5rem;
+`
 
 export default function Login() {
-    const router = useRouter();
-
-    const handleLogin = async (event) => {
-        event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
-
-        alert("Backend to be implemented later.")
-
-    };
-
-    return (
-        <AuthForm title="Login" onSubmit={handleLogin} buttonText="Login" />
+    return(
+        <NewHeader>Login page; to be implemented with backend using crypto wallet</NewHeader>
     );
 }

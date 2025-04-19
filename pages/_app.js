@@ -3,15 +3,10 @@ import Navbar from '../components/Navbar';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
 
   body {
-    background: #0a0a0a;
-    color: #ededed;
+    background:rgb(10, 10, 10);
+    color:rgb(237, 237, 237);
     font-family: "Montserrat", sans-serif;
   }
 
@@ -32,11 +27,10 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      
       {isClient && (
         <>
-        <Navbar /> 
-        <Component {...pageProps} />
+          <Navbar />
+          <Component {...pageProps} />
         </>)}
     </>
   );

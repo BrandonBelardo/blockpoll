@@ -28,37 +28,43 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 `;
 
 const Logo = styled.h2`
   font-weight: bold;
-  color: #00bcd4;
+  color:rgb(0, 188, 212);
 `;
 
 const NavLink = styled(Link)`
-  color: #ccc;
+  color:rgb(192, 192, 192);
   font-size: 0.95rem;
   &:hover {
     color: white;
   }
 `;
 
-const Button = styled.button`
-  background: #1e88e5;
+const SignUpButton = styled.a`
+  background: rgb(0, 188, 212);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 10px;
   border: none;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
+  display: inline-block;
+
+  &:hover {
+    background: rgb(0, 135, 153);
+  }
 `;
 
 export default function Navbar() {
   return (
     <Nav>
       <Left>
-        <Link href="/" passHref>
+        <Link href="/">
           <Logo>Blockpoll</Logo>
         </Link>
         <NavLink href="/">Explore</NavLink>
@@ -67,7 +73,7 @@ export default function Navbar() {
       </Left>
       <Right>
         <NavLink href="/login">Log In</NavLink>
-        <Button>Sign Up</Button>
+        <SignUpButton href="/signup">Sign Up</SignUpButton>
       </Right>
     </Nav>
   );

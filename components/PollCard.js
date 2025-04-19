@@ -4,18 +4,18 @@ import Link from 'next/link';
 import { FaRegCommentDots, FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const Card = styled.div`
-  background-color: #1a1a1a;
+  background-color:rgb(26, 26, 26);
   border-radius: 12px;
   padding: 1.2rem;
   margin-bottom: 1.5rem;
   width: 100%;
   max-width: 600px;
   color: #fff;
-  border: 1px solid #333;
+  border: 1px solidrgb(48, 48, 48);
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color:rgb(73, 73, 73);
+    background-color: rgb(31, 31, 31);
   }
 `;
 
@@ -40,12 +40,12 @@ const Icon = styled.button`
   font-size: 0.9rem;
 
   &:hover {
-    color: #fff;
+    color: white;
   }
 `;
 
 const Question = styled.a`
-    display: block;
+  display: block;
   margin-bottom: 1rem;
   font-size: 1.1rem;
 `;
@@ -57,49 +57,60 @@ const Option = styled.button`
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
-  background-color: #2a2a2a;
-  color: #ccc;
+  background-color: ${({ isSelected }) => (isSelected ? 'rgb(0, 145, 164)' : 'rgb(42, 42, 42)')};
+  color: ${({ isSelected }) => (isSelected ? 'rgb(240, 240, 240)' : 'rgb(192, 192, 192)')};
   text-align: left;
   cursor: pointer;
   font-size: 0.95rem;
 
   &:hover {
-    background-color: #3a3a3a;
+    background-color: ${({ isSelected }) => (isSelected ? 'rgb(0, 119, 134)' : 'rgb(58, 58, 58)')};
   }
 `;
 
 export default function PollCard({ question, options, id, comments = 0, initialLikes = 0 }) {
-    const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(initialLikes);
-  
-    const handleLike = () => {
-      setLiked(!liked);
-      setLikes(prev => liked ? prev - 1 : prev + 1);
-    };
-  
-    return (
-      <Card>
-        <Link href={`/polls/${id}`} passHref>
-          <Question>{question}</Question>
-        </Link>
-  
-        {options.map((option, key) => (
-          <Option key={key}>{option}</Option>
-        ))}
-  
-        <Footer>
-          <Link href={`/polls/${id}`} passHref>
-            <Icon as="a">
-              <FaRegCommentDots />
-              {comments}
-            </Icon>
-          </Link>
-  
-          <Icon onClick={handleLike}>
-            {liked ? <FaHeart color="#e25555" /> : <FaRegHeart />}
-            {likes}
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(initialLikes);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleLike = () => {
+    setLiked(!liked);
+    setLikes(prev => (liked ? prev - 1 : prev + 1));
+  };
+
+  const handleOptionClick = (index) => {
+    setSelectedOption(index);
+  };
+
+  return (
+    <Card>
+      <Link href={`/polls/${id}`}>
+        <Question>{question}</Question>
+      </Link>
+
+      {options.map((option, key) => (
+        <Option
+          key={key}
+          isSelected={selectedOption === key}
+          onClick={() => handleOptionClick(key)}
+        >
+          {option}
+        </Option>
+      ))}
+
+      <Footer>
+        <Link href={`/polls/${id}`}>
+          <Icon as="a">
+            <FaRegCommentDots />
+            {comments}
           </Icon>
-        </Footer>
-      </Card>
-    );
-  }
+        </Link>
+
+        <Icon onClick={handleLike}>
+          {liked ? <FaHeart color="rgb(226, 85, 85)" /> : <FaRegHeart />}
+          {likes}
+        </Icon>
+      </Footer>
+    </Card>
+  );
+}

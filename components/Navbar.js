@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import WalletConnect from './WalletConnect';
 
 const Nav = styled.nav`
    align-items: center;
@@ -74,6 +75,7 @@ export default function Navbar() {
       <Right>
         <NavLink href="/login">Log In</NavLink>
         <SignUpButton href="/signup">Sign Up</SignUpButton>
+        <WalletConnect/>
       </Right>
     </Nav>
   );

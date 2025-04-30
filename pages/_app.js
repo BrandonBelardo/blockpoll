@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { createGlobalStyle } from 'styled-components';
+import { StateContext } from '@/context/StateContext';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -17,21 +18,22 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function MyApp({ Component, pageProps }) {
-  const [isClient, setIsClient] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    // Prevents styled-components hydration mismatch
-    setIsClient(true);
-  }, []);
+    useEffect(() => {
+        // Prevents styled-components hydration mismatch
+        setIsClient(true);
+    }, []);
 
-  return (
-    <>
-      <GlobalStyle />
-      {isClient && (
-        <>
-          <Navbar />
-          <Component {...pageProps} />
-        </>)}
-    </>
-  );
+    return (
+        <StateContext>
+            <GlobalStyle />
+            {isClient && (
+                <>
+                    <Navbar />
+                    <Component {...pageProps} />
+                </>)}
+        </StateContext>
+
+    );
 }

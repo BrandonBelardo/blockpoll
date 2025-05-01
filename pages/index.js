@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ethers } from "ethers";
 import { useStateContext } from "../context/StateContext";
 import PollFactoryABI from "../contracts/PollFactoryABI.json";
+import { getLikesCount, getComments } from '../backend/Database';
 
 const contractAddress = "0x1A2B20B221B4BD2CD53fA7aC405C293E387E4582";
 
@@ -46,36 +47,36 @@ export default function Home() {
           provider
         );
 
-        // Get total poll count
         const pollCount = await pollContract.pollCount();
         const pollsArray = [];
+        console.log(`Total polls loaded: ${pollCount}`);
 
-        // Fetch each poll (in reverse order to show newest first)
+        // Use reverse order to show newest first
+        console.log(`Fetching polls from ${pollCount - 1} to 0`);
         for (let i = pollCount - 1; i >= 0; i--) {
           if (blacklistedPolls.includes(i)) continue;
 
           try {
-            // Get poll data
+            // We use the blockchain to get the poll data and firestore for likes and comments
             const [question, options] = await pollContract.getPoll(i);
-            
-            // Get vote counts
             const votes = await pollContract.getVotes(i);
+            
+            const likes = await getLikesCount(i);
+            const commentsList = await getComments(i);
             
             pollsArray.push({
               id: i,
               question,
               options,
               votes: votes.map(v => v.toNumber()),
-              // Placeholder values for UI
-              comments: 0,
-              likes: Math.floor(Math.random() * 100) // Random likes for now
+              comments: commentsList.length,
+              initialLikes: likes
             });
           } catch (error) {
             console.log(`Error fetching poll ${i}:`, error);
-            // Skip polls that don't exist or caused errors
           }
         }
-
+        console.log(`Polls loaded: ${pollsArray.length}`);
         setPolls(pollsArray);
         setLoading(false);
       } catch (err) {
@@ -101,7 +102,7 @@ export default function Home() {
               options={poll.options}
               votes={poll.votes}
               comments={poll.comments}
-              initialLikes={poll.likes}
+              initialLikes={poll.initialLikes}
             />
           ))
         ) : (

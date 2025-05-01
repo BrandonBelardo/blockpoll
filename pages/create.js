@@ -113,7 +113,7 @@ export default function Create() {
     };
 
     const handleRemoveOption = (index) => {
-        // Remove the option the matches the chosen index
+        // Remove the option that matches the chosen index
         const newOptions = options.filter((_, i) => i !== index);
         setOptions(newOptions);
     };

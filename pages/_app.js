@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { createGlobalStyle } from 'styled-components';
 import { StateContext } from '@/context/StateContext';
+import '../backend/Firebase';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -21,7 +22,6 @@ export default function MyApp({ Component, pageProps }) {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        // Prevents styled-components hydration mismatch
         setIsClient(true);
     }, []);
 

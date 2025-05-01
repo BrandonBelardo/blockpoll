@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { FaPlus, FaTimes } from 'react-icons/fa';
+import { ethers } from 'ethers';
+import PollFactoryABI from '../contracts/PollFactoryABI.json';
 
 const CreateWrapper = styled.div`
   display: flex;
@@ -98,6 +100,9 @@ const SubmitButton = styled.button`
   }
 `;
 
+// Replace this with the address you deployed to
+const contractAddress = '0x1A2B20B221B4BD2CD53fA7aC405C293E387E4582';
+
 export default function Create() {
     const [question, setQuestion] = useState('');
     // Start with two empty options
@@ -121,9 +126,40 @@ export default function Create() {
         setOptions(newOptions);
     };
 
-    const handleSubmit = () => {
-        // Add backend submission later
-        console.log('Poll created');
+    const handleSubmit = async () => {
+        if (!window.ethereum) {
+            alert('MetaMask not detected');
+            return;
+        }
+
+        try {
+            // 1. Create a Web3 provider and get the signer
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send('eth_requestAccounts', []);
+            const signer = provider.getSigner();
+
+            // 2. Instantiate your contract
+            const pollContract = new ethers.Contract(
+                contractAddress,
+                PollFactoryABI,
+                signer
+            );
+
+            // 3. Send the transaction
+            const tx = await pollContract.createPoll(question, options);
+            console.log('Transaction sent:', tx.hash);
+
+            // 4. Wait for it to be mined
+            await tx.wait();
+            console.log('Poll created on chain!');
+
+            // 5. (Optional) Clear the form
+            setQuestion('');
+            setOptions(['', '']);
+        } catch (err) {
+            console.error('Failed to create poll:', err);
+            alert(err.message);
+        }
     };
 
     return (

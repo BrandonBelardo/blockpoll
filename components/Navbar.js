@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import WalletConnect from './WalletConnect';
+import { useStateContext } from '../context/StateContext';
+import { useRouter } from 'next/router';
 
 const Nav = styled.nav`
    align-items: center;
@@ -29,7 +31,7 @@ const Left = styled.div`
 const Right = styled.div`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const Logo = styled.h2`
@@ -45,23 +47,46 @@ const NavLink = styled(Link)`
   }
 `;
 
-const SignUpButton = styled.a`
-  background: rgb(0, 188, 212);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+const LogoutButton = styled.button`
+  background: none;
   border: none;
-  font-weight: 600;
+  color: rgb(226, 85, 85);
+  font-size: 0.95rem;
   cursor: pointer;
-  text-align: center;
-  display: inline-block;
-
+  padding: 0.5rem;
+  
   &:hover {
-    background: rgb(0, 135, 153);
+    color: rgb(255, 100, 100);
+  }
+`;
+
+const WalletButton= styled.div`
+  & button {
+    background: rgb(0, 188, 212);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+
+    &:hover {
+      background: rgb(0, 135, 153);
+    }
   }
 `;
 
 export default function Navbar() {
+  const { walletAddress, setWalletAddress } = useStateContext();
+  const router = useRouter();
+  
+  const handleLogout = () => {
+    setWalletAddress(undefined);
+    router.reload();
+  };
+
   return (
     <Nav>
       <Left>
@@ -73,9 +98,14 @@ export default function Navbar() {
         <NavLink href="/dashboard">Dashboard</NavLink>
       </Left>
       <Right>
-        <NavLink href="/login">Log In</NavLink>
-        <SignUpButton href="/signup">Sign Up</SignUpButton>
-        <WalletConnect/>
+        {walletAddress && (
+          <LogoutButton onClick={handleLogout}>
+            Logout
+          </LogoutButton>
+        )}
+        <WalletButton>
+          <WalletConnect />
+        </WalletButton>
       </Right>
     </Nav>
   );

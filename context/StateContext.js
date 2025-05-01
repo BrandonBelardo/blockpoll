@@ -4,15 +4,17 @@ const Context = createContext();
 
 export const StateContext = ({ children }) => {
 
-    // Variables to Carry Across Multiple Pages
     const [walletAddress, setWalletAddress] = useState(undefined)
+    const [blacklistedPolls, setBlacklistedPolls] = useState([]);
 
 
     return (
         <Context.Provider
             value={{
                 walletAddress,
-                setWalletAddress
+                setWalletAddress,
+                blacklistedPolls,
+                setBlacklistedPolls
             }}
         >
             {children}

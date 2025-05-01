@@ -10,7 +10,7 @@ const Card = styled.div`
   margin-bottom: 1.5rem;
   width: 100%;
   max-width: 600px;
-  color: #fff;
+  color: white;
   border: 1px solidrgb(48, 48, 48);
   transition: background-color 0.2s ease;
 
@@ -31,7 +31,7 @@ const Footer = styled.div`
 const Icon = styled.button`
   background: none;
   border: none;
-  color: #aaa;
+  color:rgb(160, 160, 160);
   cursor: pointer;
   display: flex;
   align-items: center;

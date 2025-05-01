@@ -34,7 +34,7 @@ export default function WalletConnect() {
     return (
         <div>
             {account ? (
-                <p>Connected as: {account.slice(0, 6)}...{account.slice(-4)}</p>
+                <p>Connected as: {account.slice(0, 10)}...{account.slice(-4)}</p>
             ) : (
                 <button onClick={connectWallet}>Connect MetaMask</button>
             )}

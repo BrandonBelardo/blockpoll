@@ -16,6 +16,25 @@ export const addComment = async (pollId, walletAddress, content) => {
     }
 };
 
+export const removeComment = async (pollId, commentId) => {
+    try {
+        const commentsRef = collection(db, "comments");
+        const q = query(commentsRef);
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(async (document) => {
+            const data = document.data();
+            if (data.pollId === pollId.toString() && document.id === commentId) {
+                await deleteDoc(doc(db, "comments", document.id));
+                console.log(`Comment removed from poll ${pollId}`);
+            }
+        });
+    } catch (error) {
+        console.error(`Error removing comment from poll ${pollId}:`, error);
+        throw error;
+    }
+};
+
 export const getComments = async (pollId) => {
     try {
         const commentsRef = collection(db, "comments");

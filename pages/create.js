@@ -1,3 +1,5 @@
+// This page is the page that allows users to create a poll
+// It is accessible from the navbar and can only be used if the user is connected to their wallet
 import { useState } from 'react';
 import styled from 'styled-components';
 import { FaPlus, FaTimes } from 'react-icons/fa';

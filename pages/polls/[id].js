@@ -1,3 +1,5 @@
+// This page displays the details of a particular poll and allows users to comment on it
+// It is accessible from the main feed page by clicking on the title of the poll card
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';

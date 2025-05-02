@@ -1,3 +1,4 @@
+// This component is the wallet connect button that allows users to connect their wallet to the app
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useStateContext } from '@/context/StateContext';

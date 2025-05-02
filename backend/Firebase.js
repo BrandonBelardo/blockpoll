@@ -1,3 +1,4 @@
+// This file contains the configuration for the firebase project
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";

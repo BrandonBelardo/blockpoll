@@ -1,3 +1,5 @@
+// This component is the card that displays a poll on the main feed page
+// as well as the dashboard page
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';

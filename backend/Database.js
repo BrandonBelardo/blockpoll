@@ -1,3 +1,4 @@
+// This file contains the functions that interact with the database
 import { doc, setDoc, getDoc, updateDoc, getDocs, collection, query, orderBy, addDoc, serverTimestamp, deleteDoc } from "firebase/firestore";
 import { db } from "./Firebase";
 
@@ -121,5 +122,53 @@ export const getLikesCount = async (pollId) => {
     } catch (error) {
         console.error(`Error counting likes for poll ${pollId}:`, error);
         return 0;
+    }
+};
+
+export const addToBlacklist = async (pollId) => {
+    try {
+        const blacklistId = `poll-${pollId}`;
+        const blacklistRef = doc(db, "blacklist", blacklistId);
+        await setDoc(blacklistRef, {
+            pollId: pollId.toString(),
+            createdAt: serverTimestamp()
+        });
+        console.log(`Poll ${pollId} added to blacklist`);
+        return true;
+    } catch (error) {
+        console.error(`Error adding poll ${pollId} to blacklist:`, error);
+        return false;
+    }
+};
+
+export const removeFromBlacklist = async (pollId) => {
+    try {
+        const blacklistId = `poll-${pollId}`;
+        const blacklistRef = doc(db, "blacklist", blacklistId);
+        await deleteDoc(blacklistRef);
+        console.log(`Poll ${pollId} removed from blacklist`);
+        return true;
+    } catch (error) {
+        console.error(`Error removing poll ${pollId} from blacklist:`, error);
+        return false;
+    }
+};
+
+
+export const getBlacklistedPolls = async () => {
+    try {
+        const blacklistRef = collection(db, "blacklist");
+        const blacklistSnap = await getDocs(blacklistRef);
+        
+        const blacklistedPolls = [];
+        blacklistSnap.forEach((doc) => {
+            const data = doc.data();
+            blacklistedPolls.push(data.pollId);
+        });
+        
+        return blacklistedPolls;
+    } catch (error) {
+        console.error("Error getting blacklisted polls:", error);
+        return [];
     }
 };

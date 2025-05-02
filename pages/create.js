@@ -147,6 +147,7 @@ export default function Create() {
             console.log('Poll created on chain!');
             setQuestion('');
             setOptions(['', '']);
+            router.push('/');
         } catch (err) {
             console.error('Failed to create poll:', err);
             alert(err.message);
